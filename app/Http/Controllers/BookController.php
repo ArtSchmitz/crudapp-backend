@@ -42,7 +42,7 @@ class BookController extends Controller
         $book = Book::create($input);
         return response()->json([
             'success'=> true,
-            'message'=>'Book Created successfully.',
+            'message'=>'Livro criado com sucesso.',
             'book' => $book
         ]);
     }
@@ -68,7 +68,21 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if(Book::where('id', $id)->exists()) {
+            $book = Book::find($id);
+            $book->title = $request->title;
+            $book->author = $request->author;
+            $book->publisher = $request->publisher;
+            $book->save();
+            return response()->json([
+                'message' => 'Livro atualizado com sucesso!'
+            ], 200);
+        }
+        else{
+            return response()->json([
+                'message' => 'Livro não encontrado!'
+            ], 404);
+        }
     }
 
     /**
@@ -76,6 +90,17 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if(Book::where('id', $id)->exists()) {
+            $book = Book::find($id);
+            $book->delete();
+            return response()->json([
+                'message' => "O livro foi deletado!"
+            ], 200);
+        }
+        else {
+            return response()->json([
+                'message' => 'Livro não encontrado!'
+            ], 404);
+        }
     }
 }

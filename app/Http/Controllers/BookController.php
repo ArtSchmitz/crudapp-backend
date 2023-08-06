@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
+    public function index()
+    {
+        $book = Book::all();
+        return response()->json([
+            'success' => true,
+            'books' => $book
+        ], 200);
+    }
     public function store(Request $request)
     {
         $input = $request->all();

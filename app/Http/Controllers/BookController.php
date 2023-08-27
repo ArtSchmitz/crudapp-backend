@@ -23,7 +23,8 @@ class BookController extends Controller
         $validator = Validator::make($input,[
             'title' => 'required',
             'author' => 'required',
-            'publisher' => 'required'
+            'publisher' => 'required',
+            'image' => 'required'
         ]);
         if($validator->fails()){
             return $this->sendError('Validation Error', $validator->errors());
@@ -43,6 +44,7 @@ class BookController extends Controller
             $book->title = $request->title;
             $book->author = $request->author;
             $book->publisher = $request->publisher;
+            $book->image = $request->image;
             $book->save();
             return response()->json([
                 'message' => 'Livro atualizado com sucesso!'
